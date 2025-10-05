@@ -17,11 +17,9 @@ selectTag.forEach((tag, id) => {
     }
 });
 
-// Функция для получения транскрипции
 function getTranscription(text, lang) {
     if (!text) return "";
     
-    // Простые правила транскрипции для некоторых языков
     const transcriptionRules = {
         "ru-RU": (text) => {
             const rules = {
@@ -100,7 +98,6 @@ function getTranscription(text, lang) {
     return rule ? rule(text) : text;
 }
 
-// Функция для обновления статистики
 function updateStats() {
     const text = fromText.value;
     const chars = text.length;
@@ -108,7 +105,6 @@ function updateStats() {
     stats.textContent = `Characters: ${chars} | Words: ${words}`;
 }
 
-// Функция для обновления информации о языках
 function updateLanguageInfo() {
     const fromLang = countries[selectTag[0].value];
     const toLang = countries[selectTag[1].value];
@@ -123,7 +119,6 @@ exchageIcon.addEventListener("click", () => {
     selectTag[0].value = selectTag[1].value;
     selectTag[1].value = tempLang;
     
-    // Обновляем транскрипции при обмене языками
     fromTranscription.textContent = getTranscription(fromText.value, selectTag[0].value) || "Transcription will appear here";
     toTranscription.textContent = getTranscription(toText.value, selectTag[1].value) || "Транскрипция появится здесь";
     
@@ -137,7 +132,6 @@ fromText.addEventListener("keyup", () => {
         fromTranscription.textContent = "Transcription will appear here";
         toTranscription.textContent = "Транскрипция появится здесь";
     } else {
-        // Обновляем транскрипцию исходного текста
         fromTranscription.textContent = getTranscription(fromText.value, selectTag[0].value);
     }
     updateStats();
@@ -163,7 +157,6 @@ translateBtn.addEventListener("click", () => {
         });
         toText.setAttribute("placeholder", "Translation");
         
-        // Обновляем транскрипцию переведенного текста
         toTranscription.textContent = getTranscription(toText.value, translateTo);
         
         updateLanguageInfo();
@@ -194,7 +187,6 @@ icons.forEach(icon => {
             }
             speechSynthesis.speak(utterance);
         } else if (target.classList.contains("fa-star")) {
-            // Функциональность сохранения перевода
             const translation = {
                 fromText: fromText.value,
                 toText: toText.value,
@@ -202,7 +194,6 @@ icons.forEach(icon => {
                 toLang: selectTag[1].value,
                 timestamp: new Date().toLocaleString()
             };
-            // Здесь можно добавить сохранение в localStorage
             alert("Translation saved to favorites!");
             target.classList.toggle("fas");
             target.classList.toggle("far");
@@ -210,6 +201,5 @@ icons.forEach(icon => {
     });
 });
 
-// Инициализация при загрузке
 updateStats();
 updateLanguageInfo();
